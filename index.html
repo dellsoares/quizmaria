@@ -91,6 +91,13 @@ body{display:grid;place-items:center;touch-action:manipulation}
 .snake-play{min-width:0;width:19cqw;height:11cqw;padding:0;gap:0}
 .snake-play svg{width:17cqw;height:10cqw;max-height:48px}
 .feedback-link-extra a{display:inline-block;margin-top:.7cqw;color:#f5d38c;text-decoration:underline;font-weight:700}
+.feedback-seal-wrap{width:clamp(132px,39cqw,232px);max-width:62%;aspect-ratio:1/1;flex:none;display:grid;place-items:center;overflow:hidden;border:0;border-radius:50%;background:transparent;box-shadow:none}
+.feedback-seal-wrap img{display:block;width:100%;height:100%;object-fit:contain;border:0;border-radius:50%;background:transparent}
+.feedback-seal-caption{flex:none;margin-top:-.8cqw;color:var(--gold2);font-size:3.5cqw;line-height:1;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 1px 0 #432b12,0 0 8px #0008}
+.feedback-panel[data-question="12"]{gap:1.1cqw;padding:1.1cqw 2cqw}
+.feedback-panel[data-question="12"] .feedback-copy{max-height:25%;font-size:2.25cqw;line-height:1.18}
+.feedback-panel[data-question="12"] .feedback-seal-wrap{width:clamp(126px,36cqw,210px)}
+
 
 @media (max-aspect-ratio:3/4){#frame{width:min(100vw,75dvh)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -240,6 +247,8 @@ const PHOTO_ASSETS = {
   'resposta-8': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f3f41eb1d39b171433bff34250082c32e5be6657/8%20-%20as%20flores%20do%20jardim%20da%20nossa%20casa-%20ep%20junhos%20-%20wendell%20soares.jpg',
   'resposta-9': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f094d2905bfc030f7e8da2c0fb2eff308c269d0b/6%20-%20enquanto%20a%20saudade%20costura%20-%20ep%20junhos%20-%20wendell%20soares.jpg',
   'resposta-10': 'https://raw.githubusercontent.com/dellsoares/quizmaria/b50291a4b0f6a1a113d24efaee5fe1678734e89e/images/resposta%2010.jpg',
+  'resposta-11': 'https://raw.githubusercontent.com/dellsoares/quizmaria/494f5ab38e2854e6adc8cde972e36418db358b41/images/resposta%2011.jpg',
+  'selo-arquivos-secretos': 'https://raw.githubusercontent.com/dellsoares/quizmaria/dd87ef48577e9a849c54842d86291d7c9018d5c3/images/Selo%20Bordado%20AF%C3%89%2C%20MARIA.png',
   'henrique': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Henrique.jpg',
   'juninho': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Juninho.jpg',
   'vanilde': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Vanilde.jpg',
@@ -288,6 +297,9 @@ function photoSlot(label='foto 1:1',key=''){
   return `<div class="photo-slot" data-photo="${escapeHtml(key)}" aria-label="espaço reservado para foto"><span>${escapeHtml(label)}</span></div>`;
 }
 function feedbackMedia(sourceNo){
+  if(sourceNo==='12'){
+    return `<div class="feedback-seal-wrap"><img src="${PHOTO_ASSETS['selo-arquivos-secretos']}" alt="selo afé, maria. arquivos secretos" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.opacity='.25';this.alt='selo não carregado'"></div><div class="feedback-seal-caption">em breve....</div>`;
+  }
   if(sourceNo==='8'){
     return `<div class="media-player" data-audio-player="flores"><div class="media-player-cover"><img src="${PHOTO_ASSETS['resposta-8']}" alt="capa de as flores do jardim da nossa casa" loading="lazy" decoding="async" referrerpolicy="no-referrer"><button type="button" class="media-play-overlay" data-audio-toggle="flores" aria-label="reproduzir ou pausar as flores do jardim da nossa casa">▶</button></div><div class="media-player-controls"><button type="button" class="media-player-stop" data-audio-stop="flores">parar</button></div><audio data-audio="flores" preload="none"><source src="${FLOWERS_AUDIO_URL}" type="audio/mpeg"></audio><div class="media-player-status" data-audio-status="flores" aria-live="polite"></div></div>`;
   }
