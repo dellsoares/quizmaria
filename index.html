@@ -80,6 +80,35 @@ body{display:grid;place-items:center;touch-action:manipulation}
 .footer-note{text-align:center;font-size:1.8cqw;color:#c6a875;flex:none}
 @media (max-aspect-ratio:3/4){#frame{width:min(100vw,75dvh)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* atualização das fotografias reais, avatares e áudio da cobra */
+.photo-slot.has-photo{padding:0;background:#0b1d2b;border-style:solid}
+.photo-slot.has-photo::before{display:none}
+.photo-slot.has-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.photo-slot.has-photo span{display:none}
+.match-list{gap:.45cqw}
+.match-row{grid-template-columns:11.2cqw minmax(0,.95fr) minmax(0,1.35fr);gap:.85cqw;min-height:10.5cqw;padding:.45cqw .7cqw}
+.match-row .photo-slot{width:10.2cqw;max-width:none}
+.match-name{font-size:2.05cqw;line-height:1.08}
+.match-row select{font-size:1.85cqw;padding:.65cqw .6cqw}
+.feedback-panel>.photo-slot{width:clamp(108px,36cqw,220px);max-width:58%;aspect-ratio:1/1;flex:none}
+.feedback-panel[data-question="3"]>.photo-slot{width:clamp(96px,31cqw,190px)}
+.feedback-panel[data-question="3"] .feedback-copy{max-height:18%;font-size:2.45cqw}
+.feedback-panel[data-question="3"] .feedback-extra{max-height:16%;font-size:1.75cqw}
+.cobra-audio{display:flex;flex-direction:column;align-items:center;gap:.45cqw;flex:none;width:100%;padding:.7cqw .8cqw;border:1px solid #a77731;border-radius:1.4cqw;background:#0a2637;color:#f2d69b}
+.cobra-audio-copy{font-size:2.15cqw;line-height:1.15;text-align:center;color:#f5e4c5}
+.snake-play{display:flex;align-items:center;justify-content:center;gap:1cqw;min-width:27cqw;padding:.45cqw 1.8cqw;border:1px solid #d7a34d;border-radius:999px;background:linear-gradient(#f5d99e,#d99d42);color:#14202a;font:700 2.2cqw Georgia,serif;text-transform:lowercase;cursor:pointer}
+.snake-play svg{width:12cqw;height:7cqw;max-height:36px;overflow:visible}
+.snake-play.is-playing{background:linear-gradient(#e8c77d,#bd8131)}
+.cobra-audio-status{font-size:1.65cqw;line-height:1.1;color:#e5c78e;text-align:center}
+.cobra-audio-status a{color:#f5d38c;text-decoration:underline;margin-left:.5em}
+@media (max-width:520px){
+ .match-row{grid-template-columns:12.4cqw minmax(0,.9fr) minmax(0,1.3fr);min-height:11.2cqw;gap:.65cqw}
+ .match-row .photo-slot{width:11.2cqw}
+ .match-name{font-size:2.15cqw}
+ .match-row select{font-size:1.9cqw}
+}
+
 </style>
 </head>
 <body>
@@ -140,7 +169,31 @@ function showStage(next){
   screens.forEach(s=>s.classList.toggle('active', s.id === activeScreenId));
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const PHOTO_ASSETS = {
+  'resposta-1': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/resposta%201.jpg',
+  'resposta-2': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/resposta%202.jpg',
+  'resposta-3': 'https://raw.githubusercontent.com/dellsoares/quizmaria/32080d8dd4828e51cf83614f295593a9be1c2a32/resposta%203.jpg',
+  'resposta-6': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/resposta%206.jpg',
+  'henrique': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Henrique.jpg',
+  'juninho': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Juninho.jpg',
+  'vanilde': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Vanilde.jpg',
+  'wendell': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Wendell.jpg',
+  'eloiso': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/eloisio.jpg',
+  'imaculada': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/imaculada.jpg',
+  'angelo': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/%C3%82ngelo.jpg',
+  'ronnie-von': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/ronnie%20von.jpg',
+  'roberto-carlos': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/robeto%20carlos.jpg',
+  'erasmo-carlos': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/erasmo%20carlos.jpg',
+  'oswaldo-montenegro': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/osvaldo%20montenegro.jpg',
+  'jerry-adriani': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/jerry%20adriani.jpg',
+  'julio-iglesias': 'https://raw.githubusercontent.com/dellsoares/quizmaria/1c78f026fadb9c88821bc70a41dcd20d5fbbab3b/julio%20iglesias.jpg'
+};
+const COBRA_AUDIO_URL = 'https://raw.githubusercontent.com/dellsoares/quizmaria/d621c555e4de06bf41d90bd52a32c07c2d8b84df/e%20a%20cobra.ogg';
 function photoSlot(label='foto 1:1',key=''){
+  const src = PHOTO_ASSETS[key];
+  if (src) {
+    return `<div class="photo-slot has-photo" data-photo="${escapeHtml(key)}" aria-label="${escapeHtml(label)}"><img src="${src}" alt="${escapeHtml(label)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.classList.remove('has-photo')"><span>${escapeHtml(label)}</span></div>`;
+  }
   return `<div class="photo-slot" data-photo="${escapeHtml(key)}" aria-label="espaço reservado para foto"><span>${escapeHtml(label)}</span></div>`;
 }
 function musicSvg(kind){
@@ -258,7 +311,69 @@ function showFeedback(correct,copy,extra){
  document.getElementById('feedbackCounter').textContent=`pergunta ${current+1} de ${QUESTIONS.length}`;
  document.getElementById('feedbackProgress').style.width=((current+1)/QUESTIONS.length*100)+'%';
  document.getElementById('scoreNow').textContent=`${score} ${score===1?'ponto':'pontos'}`;
- document.getElementById('feedbackPanel').innerHTML=`<div class="feedback-title">${correct?(q.score===false?'boa! pergunta extra':'boa! +1 ponto'):'essa não era a resposta'}</div>${photoSlot('foto 1:1',`resposta-${current+1}`)}<div class="feedback-copy">${escapeHtml(copy)}</div>${extra?`<div class="feedback-extra">${escapeHtml(extra)}</div>`:''}`;
+ const feedbackPanel = document.getElementById('feedbackPanel');
+ feedbackPanel.dataset.question = q.sourceNo || String(current+1);
+ const cobraAudio = q.sourceNo === '3' ? `<div class="cobra-audio">
+   <div class="cobra-audio-copy">ah, e sobre a cobra? temos áudio. dê play.</div>
+   <button type="button" class="snake-play" id="cobraPlay" aria-label="reproduzir áudio sobre a cobra">
+     <svg viewBox="0 0 120 72" role="img" aria-label="cobra ilustrada com botão de play">
+       <path d="M12 49 C20 22 43 18 54 35 C65 52 43 63 34 48 C25 33 49 15 72 27 C88 35 87 52 75 55" fill="none" stroke="#d6a04b" stroke-width="9" stroke-linecap="round"/>
+       <path d="M12 49 C20 22 43 18 54 35 C65 52 43 63 34 48 C25 33 49 15 72 27 C88 35 87 52 75 55" fill="none" stroke="#f4d58f" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 5"/>
+       <ellipse cx="76" cy="54" rx="13" ry="9" fill="#d6a04b" stroke="#f4d58f" stroke-width="2"/>
+       <circle cx="79" cy="51" r="1.8" fill="#14202a"/><path d="M88 57l8 3m-8-1l7 4" stroke="#bd5638" stroke-width="1.8" stroke-linecap="round"/>
+       <circle cx="99" cy="22" r="17" fill="#0a2637" stroke="#e2b35f" stroke-width="2.5"/>
+       <path d="M95 13 L95 31 L109 22 Z" fill="#f4d58f"/>
+     </svg>
+     <span>dar play</span>
+   </button>
+   <audio id="cobraAudio" preload="none"><source src="${COBRA_AUDIO_URL}" type="audio/ogg"></audio>
+   <div class="cobra-audio-status" id="cobraAudioStatus" aria-live="polite"></div>
+ </div>` : '';
+ feedbackPanel.innerHTML=`<div class="feedback-title">${correct?(q.score===false?'boa! pergunta extra':'boa! +1 ponto'):'essa não era a resposta'}</div>${photoSlot('foto 1:1',`resposta-${current+1}`)}<div class="feedback-copy">${escapeHtml(copy)}</div>${cobraAudio}${extra?`<div class="feedback-extra">${escapeHtml(extra)}</div>`:''}`;
+ if (q.sourceNo === '3') {
+   const audio = document.getElementById('cobraAudio');
+   const playButton = document.getElementById('cobraPlay');
+   const status = document.getElementById('cobraAudioStatus');
+   playButton.addEventListener('click', async () => {
+     if (audio.paused) {
+       try {
+         await audio.play();
+         playButton.classList.add('is-playing');
+         playButton.querySelector('span').textContent = 'pausar';
+         status.textContent = '';
+       } catch (error) {
+         status.textContent = 'não foi possível reproduzir aqui. tente abrir o áudio diretamente.';
+         if (!status.querySelector('a')) {
+           const link = document.createElement('a');
+           link.href = COBRA_AUDIO_URL;
+           link.target = '_blank';
+           link.rel = 'noopener';
+           link.textContent = 'abrir áudio';
+           status.appendChild(link);
+         }
+       }
+     } else {
+       audio.pause();
+       playButton.classList.remove('is-playing');
+       playButton.querySelector('span').textContent = 'dar play';
+     }
+   });
+   audio.addEventListener('ended', () => {
+     playButton.classList.remove('is-playing');
+     playButton.querySelector('span').textContent = 'dar play';
+   });
+   audio.addEventListener('error', () => {
+     status.textContent = 'o áudio não carregou. tente abrir o arquivo diretamente.';
+     if (!status.querySelector('a')) {
+       const link = document.createElement('a');
+       link.href = COBRA_AUDIO_URL;
+       link.target = '_blank';
+       link.rel = 'noopener';
+       link.textContent = 'abrir áudio';
+       status.appendChild(link);
+     }
+   });
+ }
  showStage('feedback');
 }
 function nextQuestion(){
