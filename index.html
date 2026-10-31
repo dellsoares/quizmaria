@@ -91,13 +91,6 @@ body{display:grid;place-items:center;touch-action:manipulation}
 .snake-play{min-width:0;width:19cqw;height:11cqw;padding:0;gap:0}
 .snake-play svg{width:17cqw;height:10cqw;max-height:48px}
 .feedback-link-extra a{display:inline-block;margin-top:.7cqw;color:#f5d38c;text-decoration:underline;font-weight:700}
-.feedback-seal-wrap{width:clamp(132px,39cqw,232px);max-width:62%;aspect-ratio:1/1;flex:none;display:grid;place-items:center;overflow:hidden;border:0;border-radius:50%;background:transparent;box-shadow:none}
-.feedback-seal-wrap img{display:block;width:100%;height:100%;object-fit:contain;border:0;border-radius:50%;background:transparent}
-.feedback-seal-caption{flex:none;margin-top:-.8cqw;color:var(--gold2);font-size:3.5cqw;line-height:1;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 1px 0 #432b12,0 0 8px #0008}
-.feedback-panel[data-question="12"]{gap:1.1cqw;padding:1.1cqw 2cqw}
-.feedback-panel[data-question="12"] .feedback-copy{max-height:25%;font-size:2.25cqw;line-height:1.18}
-.feedback-panel[data-question="12"] .feedback-seal-wrap{width:clamp(126px,36cqw,210px)}
-
 
 @media (max-aspect-ratio:3/4){#frame{width:min(100vw,75dvh)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -160,6 +153,24 @@ body{display:grid;place-items:center;touch-action:manipulation}
 .horror-grid .option-text{font-size:2.55cqw;line-height:1.02;font-weight:700}
 
 
+
+/* tela spoiler: selo, aviso e teaser sem controles nativos de download */
+.result-actions{justify-content:center;gap:1.2cqw;flex-wrap:wrap}
+.result-actions button{min-width:22cqw;padding:1.5cqw 2.3cqw}
+.spoiler-screen{gap:1.2cqw}
+.spoiler-panel{flex:1;min-height:0;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.35cqw;padding:1.4cqw 3.2cqw;background:#071c2beF;border:1px solid #c48b36;border-radius:2cqw;overflow:hidden;text-align:center;box-shadow:inset 0 0 0 2px #d49a3a33}
+.spoiler-seal{display:block;width:clamp(108px,31cqw,205px);height:auto;max-height:29%;object-fit:contain;flex:none;border-radius:50%;filter:drop-shadow(0 2px 4px #0008)}
+.spoiler-coming{font-size:3.5cqw;font-weight:bold;letter-spacing:.12em;color:var(--gold2);text-shadow:0 1px 2px #000;flex:none}
+.spoiler-copy{width:100%;font-size:2.45cqw;line-height:1.22;color:#f5e4c5;flex:none}
+.spoiler-copy p{margin:.45cqw 0}
+.spoiler-audio-wrap{display:flex;align-items:center;justify-content:center;gap:1.3cqw;flex-wrap:wrap;width:100%;flex:none}
+.spoiler-play,.spoiler-stop{font-size:2.3cqw;padding:1.35cqw 2.8cqw}
+.spoiler-play.is-playing{background:linear-gradient(#e8c77d,#bd8131)}
+.spoiler-audio-status{width:100%;min-height:1.5em;color:#e5c78e;font-size:1.75cqw;line-height:1.1}
+.spoiler-whisper{align-self:flex-end;margin-top:auto;padding-top:.4cqw;font-size:1.45cqw;letter-spacing:.04em;color:#bfa77d;opacity:.8}
+.spoiler-actions{justify-content:center}
+.spoiler-actions button{font-size:2.1cqw;padding:1.1cqw 2.4cqw}
+
 </style>
 </head>
 <body>
@@ -170,20 +181,20 @@ body{display:grid;place-items:center;touch-action:manipulation}
     <div class="brand"><strong>ela, maria.</strong><span class="small-mark">um tiquim mais dela</span></div>
     <div class="rules-panel">
       <div class="rules-title">regras do quiz</div>
-      <div class="rule"><span class="rule-icon">✦</span><span>você vai responder <b>12 perguntas</b> sobre a dona maria.</span></div>
-      <div class="rule"><span class="rule-icon">★</span><span>cada acerto vale <b>1 ponto</b>. a pergunta extra sobre novela não pontua.</span></div>
+      <div class="rule"><span class="rule-icon">✦</span><span>você vai responder <b>11 perguntas</b> sobre a dona maria.</span></div>
+      <div class="rule"><span class="rule-icon">★</span><span>cada acerto vale <b>1 ponto</b>. a pergunta da novela também vale ponto.</span></div>
       <div class="rule"><span class="rule-icon">◷</span><span>algumas perguntas pedem para relacionar nomes e lembranças.</span></div>
       <div class="rule"><span class="rule-icon">☾</span><span>no final, descubra quanto você conhece dela.</span></div>
       <div class="rules-foot">sem pressa. cada lembrança tem seu tempo.</div>
     </div>
-    <div class="action-row"><span class="footer-note">12 perguntas · 11 pontos possíveis</span><button class="primary" id="beginQuiz">vamos lá</button></div>
+    <div class="action-row"><span class="footer-note">11 perguntas · 11 pontos possíveis</span><button class="primary" id="beginQuiz">vamos lá</button></div>
   </section>
   <section class="screen" id="questionScreen" aria-label="pergunta">
     <div class="brand"><strong>ela, maria.</strong><span id="counter" class="small-mark">pergunta 1 de 11</span></div>
     <div class="progress-wrap"><div class="progress" id="progress"></div></div>
     <div class="question-head"><div class="kicker" id="kicker">pergunta 1</div><div class="question-title" id="questionTitle"></div><div class="question-note" id="questionNote"></div></div>
     <div class="question-area" id="questionArea"></div>
-    <div class="footer-note">cada resposta certa vale 1 ponto · pergunta extra não pontua</div>
+    <div class="footer-note">cada resposta certa vale 1 ponto</div>
   </section>
   <section class="screen" id="feedbackScreen" aria-label="resposta">
     <div class="brand"><strong>ela, maria.</strong><span id="feedbackCounter" class="small-mark">resposta</span></div>
@@ -194,7 +205,29 @@ body{display:grid;place-items:center;touch-action:manipulation}
   <section class="screen" id="resultScreen" aria-label="resultado">
     <div class="brand"><strong>ela, maria.</strong><span class="small-mark">resultado</span></div>
     <div class="result-panel" id="resultPanel"></div>
-    <div class="action-row"><span class="footer-note">obrigado por lembrar dela.</span><button class="secondary" id="restartButton">jogar de novo</button></div>
+    <div class="action-row result-actions"><button class="secondary" id="restartButton">refazer</button><button class="secondary" id="closeResultButton">fechar</button><button class="primary" id="spoilerButton">spoiler</button></div>
+  </section>
+  <section class="screen spoiler-screen" id="spoilerScreen" aria-label="spoiler">
+    <div class="brand"><strong>ela, maria.</strong><span class="small-mark">spoiler</span></div>
+    <div class="spoiler-panel">
+      <img class="spoiler-seal" src="https://raw.githubusercontent.com/dellsoares/quizmaria/dd87ef48577e9a849c54842d86291d7c9018d5c3/images/Selo%20Bordado%20AF%C3%89%2C%20MARIA.png" alt="selo afé, maria. arquivos secretos" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+      <div class="spoiler-coming">em breve....</div>
+      <div class="spoiler-copy">
+        <p>interrompemos a programação de amor pra avisar que o álbum que fecha a trilogia traz assuntos mais espinhosos e menos inspiradores.</p>
+        <p>afinal, nem tudo são flores, né?</p>
+        <p>por sua conta e risco, você pode acessar um pequeno teaser do porquê ele existe. é isso.</p>
+      </div>
+      <div class="spoiler-audio-wrap">
+        <button type="button" class="primary spoiler-play" id="spoilerPlay" aria-label="reproduzir teaser">▶ ouvir teaser</button>
+        <button type="button" class="secondary spoiler-stop" id="spoilerStop">parar</button>
+        <audio id="spoilerAudio" data-audio="spoiler" preload="none" controlslist="nodownload noplaybackrate" disablepictureinpicture oncontextmenu="return false">
+          <source src="https://raw.githubusercontent.com/dellsoares/quizmaria/67044b9b9741f99cdb640e6cf285e7a6320069fb/images/audio%20da%20corja.mp3" type="audio/mpeg">
+        </audio>
+        <div class="spoiler-audio-status" id="spoilerAudioStatus" aria-live="polite"></div>
+      </div>
+      <div class="spoiler-whisper">cadê a manu, gente?</div>
+    </div>
+    <div class="action-row spoiler-actions"><button type="button" class="secondary" id="backToResultButton">voltar ao resultado</button></div>
   </section>
   <button type="button" class="exit-quiz-button hidden" id="exitQuizButton" aria-label="sair do quiz">sair ×</button>
   <div class="exit-dialog hidden" id="exitDialog" role="dialog" aria-modal="true" aria-labelledby="exitDialogTitle">
@@ -209,13 +242,13 @@ body{display:grid;place-items:center;touch-action:manipulation}
   </div>
 </div>
 <script>
-const QUESTIONS = [{"type":"choice","sourceNo":"1","title":"quem foi a melhor amiga da dona maria?","options":[{"label":"lili, amiga de costura","correct":false,"feedback":"lili veio nos últimos anos, sempre foi uma querida, mas vanilde foi a amiga de 4 décadas."},{"label":"vanilde, a vizinha do lado","correct":true,"feedback":"vanilde era a amiga que, segundo a própria dona maria, foi a irmã que ela escolheu. vai entender melhor isso na próxima pergunta."},{"label":"imaculada, a cunhada mais próxima","correct":false,"feedback":"nem fodendo. ela sempre deixou claro que só suportou porque a cunhada tratou bem os filhos. er… até certo ponto. romper com ela, segundo dona maria, foi… ouça você. a resposta certa e única é a vanilde."},{"label":"luiza, a irmã de marilac","correct":false,"feedback":"luiza não era nem a irmã mais querida (e olha que ela amava todos). a resposta certa e única é a vanilde."},{"label":"belinha, a vizinha da rua de trás","correct":false,"feedback":"uma queridíssima, mas talvez fosse, junto com a marta (a irmã dela), as seguintes da lista. o topo é da vanilde há 4 décadas."}]},{"type":"choice","sourceNo":"2","title":"juntas, dona maria e vanilde tinham uma amizade que permitia:","options":[{"label":"sentar no fim de tarde na calçada só pra fofocar e fumar um cigarrinho","correct":false},{"label":"ir na casa da outra sem levar cigarro e saber onde ela guardava o cigarro e pegar","correct":false},{"label":"corrigir o filho ou neto da outra como fosse seu","correct":false},{"label":"pedir comida pelo basculante que existias no muro das casas","correct":false},{"label":"todas as respostas anteriores","correct":true}],"feedback":"sim, elas faziam tudo isso e mais um pouco. e vendo as mensagens no celular da dona maria, ainda confirmei uma teoria que tinha e descobri que era dona maria que “vigiava” a filha da vizinha quando a mãe viajava. sabia mais sobre o itinerário da natália que a própria."},{"type":"match","sourceNo":"3","title":"como dona maria chamava as seguintes pessoas próximas? ligue os nomes aos apelidos.","note":"escolha o apelido que combina com cada pessoa.","pairs":[["vanilde, a amiga","di"],["wendell, o filho","meu preto"],["eloiso, o vizinho","cumpadi"],["henrique, o neto caçula","príncipe"],["imaculada, a cunhada","cobra"],["juninho, o caçula","meu branco"],["ângelo, o cunhado","menino do morro"]],"choices":["cobra","menino do morro","meu branco","príncipe","di","cumpadi","meu preto"],"photoKeys":["vanilde","wendell","eloiso","henrique","imaculada","juninho","angelo"]},{"type":"choice","sourceNo":"4","title":"mesmo sendo uma cozinheira incrível, dona maria odiava comer uma coisa que fazia até com frequência. o que era?","layout":"food","options":[{"label":"dobradinha","artKey":"dobradinha","correct":false,"feedback":"tá aí algo que ela nunca fez em toda nossa vida. mas acho que comia. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"peixe frito","artKey":"peixe-frito","correct":false,"feedback":"só comíamos peixe em situações atípicas, nunca foi prato lá em casa. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"frango","artKey":"frango","correct":true,"feedback":"mesmo sendo dona do melhor frango com quiabo do mundo, ela odiava frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"macarronada","artKey":"macarronada","correct":false,"feedback":"era algo que eu amo até hoje mas ela nunca foi de fazer. mas amava o que a tia mariquinha fazia. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"churrasco","artKey":"churrasco","correct":false,"feedback":"churrasco não era só o favorito como mera convenção. se deixasse, ela comia o boi vivo. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."}]},{"type":"choice","sourceNo":"5","title":"segundo ela, qual era o segredo do melhor feijão do mundo?","options":[{"label":"não tinha segredo","correct":true,"feedback":"isso é o que ela dizia quando não queria explicar. mas o mais próximo de segredo que consegui presenciar foram as duas cabeças de alho quase torradas, antes de refogar."},{"label":"era só dourar duas cabeças de alho antes de refogar","correct":true,"feedback":"gosto de acreditar que o segredo é esse pois já quase consegui repetir a receita. se não for, ela levou pra sempre e é foda imaginar que não terei mais esse sabor."},{"label":"cozinhar com uma beterraba","correct":true,"feedback":"sim, ela sempre cozinhava uma beterraba (e só não tirava quando juninho chegava antes pra comer feijão sem tempero) mas talvez fosse só parte do segredo. segundo ela, fazia isso pra ter um caldo grossinho."},{"label":"socar o tempero na hora","correct":true,"feedback":"pro feijão ela nunca usava tempero pronto, nem o dela. socava na hora. porém, o mais próximo de segredo que consegui presenciar foram as duas cabeças de alho quase torradas, antes de refogar."},{"label":"ela não contava o segredo","correct":true,"feedback":"também tá certa essa porque as conclusões que cheguei são mais dedutivas que informativas. como as grandes cozinheiras, ela teimava que não tinha segredo algum só pra não contar. quando parecia que ia contar, fazia de modo incompleto."}],"allCorrect":true},{"type":"match","sourceNo":"6","title":"relacione os 6 artistas com as opiniões dela sobre eles.","note":"escolha a frase que dona maria dizia sobre cada artista.","pairs":[["ronnie von","“foi o mais bonito do mundo”"],["roberto carlos","“é o que tem mais música que ouço”"],["erasmo carlos","“as coisas novas dele são mais bonitas que as do meu tempo”"],["oswaldo montenegro","“foi o show mais bonito que vi na vida”"],["jerry adriani","“eu queria ser namorada dele na adolescência”"],["julio iglesias","“tá feio, mas já foi mais bonito que o filho”"]],"choices":["“foi o show mais bonito que vi na vida”","“tá feio, mas já foi mais bonito que o filho”","“é o que tem mais música que ouço”","“eu queria ser namorada dele na adolescência”","“foi o mais bonito do mundo”","“as coisas novas dele são mais bonitas que as do meu tempo”"],"photoKeys":["ronnie-von","roberto-carlos","erasmo-carlos","oswaldo-montenegro","jerry-adriani","julio-iglesias"]},{"type":"choice","sourceNo":"7","title":"qual novela era a favorita da dona maria?","note":"pergunta extra · não vale ponto","score":false,"options":[{"label":"o direito de nascer","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"escrava isaura","correct":true,"feedback":"isso mesmo: escrava isaura."},{"label":"roque santeiro","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"vale tudo","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"a viagem","correct":false,"feedback":"a novela favorita era escrava isaura."}]},{"type":"choice","sourceNo":"8","title":"qual era a canção nacional favorita da dona maria?","layout":"music","options":[{"label":"você deixou alguém a te esperar — roberto carlos","art":"vinyl","correct":true},{"label":"às vezes tu, às vezes eu — julio iglesias","art":"moon","correct":false},{"label":"morto de saudade sua — cézar e paulinho","art":"road","correct":false},{"label":"chalana — almir sater","art":"sun","correct":false},{"label":"lua e flor — oswaldo montenegro","art":"flower","correct":false},{"label":"mulher — erasmo carlos","art":"globe","correct":false},{"label":"olhos feiticeiros — jerry adriani","art":"piano","correct":false}],"feedback":"você deixou alguém a te esperar era a favorita dela. mas na lista está a favorita de cada um dos artistas citados. aliás, em junhos, no cover de \"as flores do jardim da nossa casa\" tem uma citação direta a ela, já reparou?"},{"type":"choice","sourceNo":"9","title":"das canções que juninho e eu ouvimos, qual era a favorita dela?","layout":"music","options":[{"label":"old habits die hard — mick jagger","art":"vinyl","correct":false},{"label":"come pick me up — ryan adams","art":"road","correct":false},{"label":"these days — bon jovi","art":"sun","correct":false},{"label":"the blower’s daughter — damien rice","art":"flower","correct":false},{"label":"the man who sold the world — nirvana","art":"globe","correct":true},{"label":"i don’t want to miss a thing — aerosmith","art":"moon","correct":false},{"label":"forever and one — helloween","art":"piano","correct":false}],"feedback":"the man who sold the world era, segundo minha mãe, a música mais bonita de tudo que ouvíamos (mesmo sem eu saber a letra, comentava). era a música que juninho tinha que fazer, pelo menos, os acordes iniciais, sempre que pegava violão ou guitarra. propositadamente, a parte narrada ao final de \"enquanto a saudade costura\" é da letra da música em questão."},{"type":"choice","sourceNo":"10","title":"dos filmes de terror, qual gênero era o favorito da dona maria?","layout":"horror","options":[{"label":"suspense","artKey":"suspense","correct":false},{"label":"gore","artKey":"gore","correct":false},{"label":"possessão","artKey":"possession","correct":true},{"label":"thriller psicológico","artKey":"psychological","correct":false},{"label":"ficção científica","artKey":"scifi","correct":false}],"feedback":"ela assistia qualquer tipo de terror. sempre pedia. mas queria ver o sorriso iluminar era o filme ser de possessão. amou maratonar histórias de possessão e qualquer outra em que o mal entrasse ou saísse de alguém."},{"type":"choice","sourceNo":"11","title":"de toda a família, excluindo os filhos, quem foi a pessoa favorita dela (olha a treta!)","layout":"family","options":[{"label":"a vovó lourdes","photo":"vovo-lourdes","correct":false},{"label":"o vovô duca","photo":"vovo-duca","correct":false},{"label":"a tia terezinha","photo":"tia-terezinha","correct":true},{"label":"a tia luiza","photo":"tia-luiza","correct":false},{"label":"o tio tonico","photo":"tio-tonico","correct":false}],"feedback":"ela era apaixonada por (quase) todo mundo da família. mas me disse a vida toda, sempre que podia, o quanto a tia terezinha foi a pessoa mais linda que ela conheceu. era sua favorita e nunca escondeu isso."},{"type":"choice","sourceNo":"12","title":"qual dos parentes pisou na bola feio com dona maria e o que fez?","layout":"long","options":[{"label":"o irmão, tonico, deixou ela responder um processo grave porque sumiu no mapa quando deveria responder pela tetraplegia de um funcionário da obra dele.","correct":false},{"label":"a cunhada, imaculada, foi visitá-la no coma mesmo sem conversar com ela há 4 anos, apenas pra saber se ela estava nas últimas e teria que cuidar do irmão.","correct":false},{"label":"o esposo, wanderley, ignorou a própria religião e que havia sido cuidado por ela quando precisou e só a visitou 2 vezes no coma porque foi cobrado por isso.","correct":false},{"label":"a neta, emanuelly, ao lado do esposo, extorquiu a avó alegando dar uma boa vida pro filho e roubou todo o dinheiro que conseguiu e mais um pouco.","correct":false},{"label":"todas as respostas anteriores.","correct":true}],"feedbackWrong":"essa e todas as outras são verdadeiras e um pequeno spoiler do que vem no próximo álbum, rodas-gigantes. aproveite e faça o pré-save. o exposed vem primeiro como canção, depois como conteúdo investigativo da minha versão full pistola. aguardem.","feedbackRight":"todas são verdadeiras e um pequeno spoiler do que vem no próximo álbum, rodas-gigantes. aproveite e faça o pré-save do disco, que sai dia 14. o exposed vem primeiro como canção, depois como conteúdo investigativo da minha versão full pistola. aguardem."}];
+const QUESTIONS = [{"type":"choice","sourceNo":"1","title":"quem foi a melhor amiga da dona maria?","options":[{"label":"lili, amiga de costura","correct":false,"feedback":"lili veio nos últimos anos, sempre foi uma querida, mas vanilde foi a amiga de 4 décadas."},{"label":"vanilde, a vizinha do lado","correct":true,"feedback":"vanilde era a amiga que, segundo a própria dona maria, foi a irmã que ela escolheu. vai entender melhor isso na próxima pergunta."},{"label":"imaculada, a cunhada mais próxima","correct":false,"feedback":"nem fodendo. ela sempre deixou claro que só suportou porque a cunhada tratou bem os filhos. er… até certo ponto. romper com ela, segundo dona maria, foi… ouça você. a resposta certa e única é a vanilde."},{"label":"luiza, a irmã de marilac","correct":false,"feedback":"luiza não era nem a irmã mais querida (e olha que ela amava todos). a resposta certa e única é a vanilde."},{"label":"belinha, a vizinha da rua de trás","correct":false,"feedback":"uma queridíssima, mas talvez fosse, junto com a marta (a irmã dela), as seguintes da lista. o topo é da vanilde há 4 décadas."}]},{"type":"choice","sourceNo":"2","title":"juntas, dona maria e vanilde tinham uma amizade que permitia:","options":[{"label":"sentar no fim de tarde na calçada só pra fofocar e fumar um cigarrinho","correct":false},{"label":"ir na casa da outra sem levar cigarro e saber onde ela guardava o cigarro e pegar","correct":false},{"label":"corrigir o filho ou neto da outra como fosse seu","correct":false},{"label":"pedir comida pelo basculante que existias no muro das casas","correct":false},{"label":"todas as respostas anteriores","correct":true}],"feedback":"sim, elas faziam tudo isso e mais um pouco. e vendo as mensagens no celular da dona maria, ainda confirmei uma teoria que tinha e descobri que era dona maria que “vigiava” a filha da vizinha quando a mãe viajava. sabia mais sobre o itinerário da natália que a própria."},{"type":"match","sourceNo":"3","title":"como dona maria chamava as seguintes pessoas próximas? ligue os nomes aos apelidos.","note":"escolha o apelido que combina com cada pessoa.","pairs":[["vanilde, a amiga","di"],["wendell, o filho","meu preto"],["eloiso, o vizinho","cumpadi"],["henrique, o neto caçula","príncipe"],["imaculada, a cunhada","cobra"],["juninho, o caçula","meu branco"],["ângelo, o cunhado","menino do morro"]],"choices":["cobra","menino do morro","meu branco","príncipe","di","cumpadi","meu preto"],"photoKeys":["vanilde","wendell","eloiso","henrique","imaculada","juninho","angelo"]},{"type":"choice","sourceNo":"4","title":"mesmo sendo uma cozinheira incrível, dona maria odiava comer uma coisa que fazia até com frequência. o que era?","layout":"food","options":[{"label":"dobradinha","artKey":"dobradinha","correct":false,"feedback":"tá aí algo que ela nunca fez em toda nossa vida. mas acho que comia. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"peixe frito","artKey":"peixe-frito","correct":false,"feedback":"só comíamos peixe em situações atípicas, nunca foi prato lá em casa. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"frango","artKey":"frango","correct":true,"feedback":"mesmo sendo dona do melhor frango com quiabo do mundo, ela odiava frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"macarronada","artKey":"macarronada","correct":false,"feedback":"era algo que eu amo até hoje mas ela nunca foi de fazer. mas amava o que a tia mariquinha fazia. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"churrasco","artKey":"churrasco","correct":false,"feedback":"churrasco não era só o favorito como mera convenção. se deixasse, ela comia o boi vivo. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."}]},{"type":"choice","sourceNo":"5","title":"segundo ela, qual era o segredo do melhor feijão do mundo?","options":[{"label":"não tinha segredo","correct":true,"feedback":"isso é o que ela dizia quando não queria explicar. mas o mais próximo de segredo que consegui presenciar foram as duas cabeças de alho quase torradas, antes de refogar."},{"label":"era só dourar duas cabeças de alho antes de refogar","correct":true,"feedback":"gosto de acreditar que o segredo é esse pois já quase consegui repetir a receita. se não for, ela levou pra sempre e é foda imaginar que não terei mais esse sabor."},{"label":"cozinhar com uma beterraba","correct":true,"feedback":"sim, ela sempre cozinhava uma beterraba (e só não tirava quando juninho chegava antes pra comer feijão sem tempero) mas talvez fosse só parte do segredo. segundo ela, fazia isso pra ter um caldo grossinho."},{"label":"socar o tempero na hora","correct":true,"feedback":"pro feijão ela nunca usava tempero pronto, nem o dela. socava na hora. porém, o mais próximo de segredo que consegui presenciar foram as duas cabeças de alho quase torradas, antes de refogar."},{"label":"ela não contava o segredo","correct":true,"feedback":"também tá certa essa porque as conclusões que cheguei são mais dedutivas que informativas. como as grandes cozinheiras, ela teimava que não tinha segredo algum só pra não contar. quando parecia que ia contar, fazia de modo incompleto."}],"allCorrect":true},{"type":"match","sourceNo":"6","title":"relacione os 6 artistas com as opiniões dela sobre eles.","note":"escolha a frase que dona maria dizia sobre cada artista.","pairs":[["ronnie von","“foi o mais bonito do mundo”"],["roberto carlos","“é o que tem mais música que ouço”"],["erasmo carlos","“as coisas novas dele são mais bonitas que as do meu tempo”"],["oswaldo montenegro","“foi o show mais bonito que vi na vida”"],["jerry adriani","“eu queria ser namorada dele na adolescência”"],["julio iglesias","“tá feio, mas já foi mais bonito que o filho”"]],"choices":["“foi o show mais bonito que vi na vida”","“tá feio, mas já foi mais bonito que o filho”","“é o que tem mais música que ouço”","“eu queria ser namorada dele na adolescência”","“foi o mais bonito do mundo”","“as coisas novas dele são mais bonitas que as do meu tempo”"],"photoKeys":["ronnie-von","roberto-carlos","erasmo-carlos","oswaldo-montenegro","jerry-adriani","julio-iglesias"]},{"type":"choice","sourceNo":"7","title":"qual novela era a favorita da dona maria?","score":true,"options":[{"label":"o direito de nascer","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"escrava isaura","correct":true,"feedback":"isso mesmo: escrava isaura."},{"label":"roque santeiro","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"vale tudo","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"a viagem","correct":false,"feedback":"a novela favorita era escrava isaura."}]},{"type":"choice","sourceNo":"8","title":"qual era a canção nacional favorita da dona maria?","layout":"music","options":[{"label":"você deixou alguém a te esperar — roberto carlos","art":"vinyl","correct":true},{"label":"às vezes tu, às vezes eu — julio iglesias","art":"moon","correct":false},{"label":"morto de saudade sua — cézar e paulinho","art":"road","correct":false},{"label":"chalana — almir sater","art":"sun","correct":false},{"label":"lua e flor — oswaldo montenegro","art":"flower","correct":false},{"label":"mulher — erasmo carlos","art":"globe","correct":false},{"label":"olhos feiticeiros — jerry adriani","art":"piano","correct":false}],"feedback":"você deixou alguém a te esperar era a favorita dela. mas na lista está a favorita de cada um dos artistas citados. aliás, em junhos, no cover de \"as flores do jardim da nossa casa\" tem uma citação direta a ela, já reparou?"},{"type":"choice","sourceNo":"9","title":"das canções que juninho e eu ouvimos, qual era a favorita dela?","layout":"music","options":[{"label":"old habits die hard — mick jagger","art":"vinyl","correct":false},{"label":"come pick me up — ryan adams","art":"road","correct":false},{"label":"these days — bon jovi","art":"sun","correct":false},{"label":"the blower’s daughter — damien rice","art":"flower","correct":false},{"label":"the man who sold the world — nirvana","art":"globe","correct":true},{"label":"i don’t want to miss a thing — aerosmith","art":"moon","correct":false},{"label":"forever and one — helloween","art":"piano","correct":false}],"feedback":"the man who sold the world era, segundo minha mãe, a música mais bonita de tudo que ouvíamos (mesmo sem eu saber a letra, comentava). era a música que juninho tinha que fazer, pelo menos, os acordes iniciais, sempre que pegava violão ou guitarra. propositadamente, a parte narrada ao final de \"enquanto a saudade costura\" é da letra da música em questão."},{"type":"choice","sourceNo":"10","title":"dos filmes de terror, qual gênero era o favorito da dona maria?","layout":"horror","options":[{"label":"suspense","artKey":"suspense","correct":false},{"label":"gore","artKey":"gore","correct":false},{"label":"possessão","artKey":"possession","correct":true},{"label":"thriller psicológico","artKey":"psychological","correct":false},{"label":"ficção científica","artKey":"scifi","correct":false}],"feedback":"ela assistia qualquer tipo de terror. sempre pedia. mas queria ver o sorriso iluminar era o filme ser de possessão. amou maratonar histórias de possessão e qualquer outra em que o mal entrasse ou saísse de alguém."},{"type":"choice","sourceNo":"11","title":"de toda a família, excluindo os filhos, quem foi a pessoa favorita dela (olha a treta!)","layout":"family","options":[{"label":"a vovó lourdes","photo":"vovo-lourdes","correct":false},{"label":"o vovô duca","photo":"vovo-duca","correct":false},{"label":"a tia terezinha","photo":"tia-terezinha","correct":true},{"label":"a tia luiza","photo":"tia-luiza","correct":false},{"label":"o tio tonico","photo":"tio-tonico","correct":false}],"feedback":"ela era apaixonada por (quase) todo mundo da família. mas me disse a vida toda, sempre que podia, o quanto a tia terezinha foi a pessoa mais linda que ela conheceu. era sua favorita e nunca escondeu isso."}];
 const frame = document.getElementById('frame');
 const cover = document.getElementById('cover');
 const startButton = document.getElementById('startButton');
 const exitQuizButton = document.getElementById('exitQuizButton');
 const exitDialog = document.getElementById('exitDialog');
-const screens = ['rulesScreen','questionScreen','feedbackScreen','resultScreen'].map(id=>document.getElementById(id));
+const screens = ['rulesScreen','questionScreen','feedbackScreen','resultScreen','spoilerScreen'].map(id=>document.getElementById(id));
 let current = 0, score = 0, stage = 'cover', pendingChoice = null;
 
 function showStage(next){
@@ -225,11 +258,12 @@ function showStage(next){
     rules: 'rulesScreen',
     question: 'questionScreen',
     feedback: 'feedbackScreen',
-    result: 'resultScreen'
+    result: 'resultScreen',
+    spoiler: 'spoilerScreen'
   })[next] || null;
   cover.classList.toggle('hidden', next !== 'cover');
   startButton.classList.toggle('hidden', next !== 'cover');
-  exitQuizButton.classList.toggle('hidden', next === 'cover');
+  exitQuizButton.classList.toggle('hidden', next === 'cover' || next === 'result');
   if(next === 'cover') exitDialog.classList.add('hidden');
   frame.classList.toggle('game-mode', next !== 'cover');
   frame.classList.toggle('cover-mode', next === 'cover');
@@ -247,8 +281,6 @@ const PHOTO_ASSETS = {
   'resposta-8': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f3f41eb1d39b171433bff34250082c32e5be6657/8%20-%20as%20flores%20do%20jardim%20da%20nossa%20casa-%20ep%20junhos%20-%20wendell%20soares.jpg',
   'resposta-9': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f094d2905bfc030f7e8da2c0fb2eff308c269d0b/6%20-%20enquanto%20a%20saudade%20costura%20-%20ep%20junhos%20-%20wendell%20soares.jpg',
   'resposta-10': 'https://raw.githubusercontent.com/dellsoares/quizmaria/b50291a4b0f6a1a113d24efaee5fe1678734e89e/images/resposta%2010.jpg',
-  'resposta-11': 'https://raw.githubusercontent.com/dellsoares/quizmaria/494f5ab38e2854e6adc8cde972e36418db358b41/images/resposta%2011.jpg',
-  'selo-arquivos-secretos': 'https://raw.githubusercontent.com/dellsoares/quizmaria/dd87ef48577e9a849c54842d86291d7c9018d5c3/images/Selo%20Bordado%20AF%C3%89%2C%20MARIA.png',
   'henrique': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Henrique.jpg',
   'juninho': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Juninho.jpg',
   'vanilde': 'https://raw.githubusercontent.com/dellsoares/quizmaria/f18b58fe0458bf9fd00c4a5c99a86fe8f5eb054e/images/Vanilde.jpg',
@@ -297,9 +329,6 @@ function photoSlot(label='foto 1:1',key=''){
   return `<div class="photo-slot" data-photo="${escapeHtml(key)}" aria-label="espaço reservado para foto"><span>${escapeHtml(label)}</span></div>`;
 }
 function feedbackMedia(sourceNo){
-  if(sourceNo==='12'){
-    return `<div class="feedback-seal-wrap"><img src="${PHOTO_ASSETS['selo-arquivos-secretos']}" alt="selo afé, maria. arquivos secretos" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.style.opacity='.25';this.alt='selo não carregado'"></div><div class="feedback-seal-caption">em breve....</div>`;
-  }
   if(sourceNo==='8'){
     return `<div class="media-player" data-audio-player="flores"><div class="media-player-cover"><img src="${PHOTO_ASSETS['resposta-8']}" alt="capa de as flores do jardim da nossa casa" loading="lazy" decoding="async" referrerpolicy="no-referrer"><button type="button" class="media-play-overlay" data-audio-toggle="flores" aria-label="reproduzir ou pausar as flores do jardim da nossa casa">▶</button></div><div class="media-player-controls"><button type="button" class="media-player-stop" data-audio-stop="flores">parar</button></div><audio data-audio="flores" preload="none"><source src="${FLOWERS_AUDIO_URL}" type="audio/mpeg"></audio><div class="media-player-status" data-audio-status="flores" aria-live="polite"></div></div>`;
   }
@@ -319,6 +348,10 @@ function stopAllInlineAudio(){
   const cobraPlay = document.getElementById('cobraPlay');
   if(cobraAudio){ try{ cobraAudio.pause(); cobraAudio.currentTime = 0; }catch(e){} }
   if(cobraPlay){ cobraPlay.classList.remove('is-playing'); cobraPlay.setAttribute('aria-label','reproduzir áudio sobre a cobra'); }
+  const spoilerAudio = document.getElementById('spoilerAudio');
+  const spoilerPlay = document.getElementById('spoilerPlay');
+  if(spoilerAudio){ try{ spoilerAudio.pause(); spoilerAudio.currentTime = 0; }catch(e){} }
+  if(spoilerPlay){ spoilerPlay.classList.remove('is-playing'); spoilerPlay.textContent='▶ ouvir teaser'; }
 }
 
 function initInlineAudioPlayers(){
@@ -498,7 +531,7 @@ function confirmChoice(){
 }
 function feedbackAddition(sourceNo){
  if(sourceNo==='11'){
-   return `<div class="feedback-extra feedback-link-extra">e se brigarem por isso eu divulgo a lista dos irmãos e sobrinhos favoritos porque aí a briga fica boa<br><a href="https://soundcloud.com/dellsoares/errado-e-cafona-folk/s-Qp4f5ox0lPm?si=fabd378d90c0410b9510c70ac3c39204&amp;utm_source=clipboard&amp;utm_medium=text&amp;utm_campaign=social_sharing" target="_blank" rel="noopener">a canção bônus inédita aqui</a></div>`;
+   return `<div class="feedback-extra">e se brigarem por isso eu divulgo a lista dos irmãos e sobrinhos favoritos porque aí a briga fica boa</div>`;
  }
  return '';
 }
@@ -598,19 +631,9 @@ function renderResult(){
    extra='<div class="placeholder-audio">♫<br>radinho am da dona maria<br><small>espaço reservado para inserir a playlist</small></div>';
  } else {
    title='ah nem, 11 de 11!';
-   copy='ah nem, temos um sortudo aqui que, possivelmente, viveu um pouco de tudo que ela compartilhou. deve ter comido algo gostoso, tomado o suco de laranja ou maracujá ou quem sabe até dormido sentindo o cheirinho dos lençóis insuperável dela. merece até um mimo. mas, pra ter certeza que não foi sorte, digite na caixinha a seguir o que eu não comia de jeito nenhum, nem feito por ela. se acertar, acessa uma canção bônus inédita.';
-   extra='<input id="bonusAnswer" class="bonus-input" type="text" autocomplete="off" placeholder="digite a resposta"><button class="primary" id="checkBonus">confirmar</button><div id="bonusFeedback" class="placeholder-audio hidden"></div>';
+   copy='ah nem, temos um sortudo aqui que, possivelmente, viveu um pouco de tudo que ela compartilhou. deve ter comido algo gostoso, tomado o suco de laranja ou maracujá ou quem sabe até dormido sentindo o cheirinho dos lençóis insuperável dela. você conhece um bocado da dona maria.';
  }
  panel.innerHTML=`<div class="result-title">${title}</div><div class="score">${score}<span style="font-size:3.2cqw">/11</span></div><div class="result-copy">${copy}</div>${extra}`;
- if(score===11){
-   document.getElementById('checkBonus').addEventListener('click',()=>{
-     const val=document.getElementById('bonusAnswer').value.trim().toLocaleLowerCase('pt-BR');
-     const box=document.getElementById('bonusFeedback');
-     box.classList.remove('hidden');
-     if(val==='angu') box.innerHTML='acertou! <br>espaço reservado para inserir a canção bônus inédita.';
-     else box.textContent='ainda não. tente mais uma vez.';
-   });
- }
 }
 function restart(){ current=0; score=0; pendingChoice=null; QUESTIONS.forEach(q=>{ if(q.type==='match') delete q._renderChoices; }); showStage('cover'); }
 function openExitDialog(){
@@ -640,6 +663,43 @@ startButton.addEventListener('keydown',(event)=>{if((event.key==='Enter'||event.
 document.getElementById('beginQuiz').addEventListener('click',()=>{current=0;score=0;pendingChoice=null;showStage('question');renderQuestion();});
 document.getElementById('nextButton').addEventListener('click',nextQuestion);
 document.getElementById('restartButton').addEventListener('click',restart);
+document.getElementById('closeResultButton').addEventListener('click',openExitDialog);
+document.getElementById('spoilerButton').addEventListener('click',()=>showStage('spoiler'));
+document.getElementById('backToResultButton').addEventListener('click',()=>showStage('result'));
+const spoilerAudio = document.getElementById('spoilerAudio');
+const spoilerPlay = document.getElementById('spoilerPlay');
+const spoilerStop = document.getElementById('spoilerStop');
+const spoilerAudioStatus = document.getElementById('spoilerAudioStatus');
+spoilerPlay.addEventListener('click', async ()=>{
+  if(spoilerAudio.paused){
+    stopAllInlineAudio();
+    try{
+      await spoilerAudio.play();
+      spoilerPlay.classList.add('is-playing');
+      spoilerPlay.textContent='❚❚ pausar teaser';
+      spoilerAudioStatus.textContent='';
+    }catch(error){
+      spoilerAudioStatus.textContent='não foi possível reproduzir o teaser. tente novamente.';
+    }
+  }else{
+    spoilerAudio.pause();
+    spoilerPlay.classList.remove('is-playing');
+    spoilerPlay.textContent='▶ ouvir teaser';
+  }
+});
+spoilerStop.addEventListener('click',()=>{
+  try{spoilerAudio.pause();spoilerAudio.currentTime=0;}catch(error){}
+  spoilerPlay.classList.remove('is-playing');
+  spoilerPlay.textContent='▶ ouvir teaser';
+  spoilerAudioStatus.textContent='';
+});
+spoilerAudio.addEventListener('ended',()=>{
+  spoilerPlay.classList.remove('is-playing');
+  spoilerPlay.textContent='▶ ouvir teaser';
+});
+spoilerAudio.addEventListener('error',()=>{
+  spoilerAudioStatus.textContent='o teaser não carregou. verifique a conexão e tente novamente.';
+});
 showStage('cover');
 </script>
 </body>
