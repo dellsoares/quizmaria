@@ -78,6 +78,20 @@ body{display:grid;place-items:center;touch-action:manipulation}
 .bonus-input{width:70%;border:1px solid #d5a24f;border-radius:1.2cqw;padding:1.4cqw;background:#f6e4c0;color:#14212a;text-align:center;font: bold 2.8cqw Georgia,serif;text-transform:lowercase}
 .hidden{display:none!important}
 .footer-note{text-align:center;font-size:1.8cqw;color:#c6a875;flex:none}
+.exit-quiz-button{position:absolute;top:1.25%;right:7.3%;z-index:12;border:1px solid #d7a34d;border-radius:999px;background:#0a2637eF;color:#f5d99e;padding:.55cqw 2.1cqw;font:700 2.05cqw Georgia,serif;text-transform:lowercase;cursor:pointer;box-shadow:0 2px 5px #0007}
+.exit-dialog{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:9%;background:rgba(0,0,0,.76);backdrop-filter:blur(3px)}
+.exit-card{width:100%;max-width:88%;padding:4cqw 3.4cqw;border:1px solid #d4a04c;border-radius:2.2cqw;background:linear-gradient(145deg,#102f40,#071b2a);box-shadow:inset 0 0 0 2px #d49a3a33,0 12px 35px #0009;text-align:center;color:#f5e4c5}
+.exit-dialog-title{font-size:4.4cqw;font-weight:700;color:#f0c46e}
+.exit-card p{font-size:2.55cqw;line-height:1.25;margin:1.8cqw 0 2.8cqw}
+.exit-actions{display:flex;justify-content:center;gap:1.4cqw;flex-wrap:wrap}
+.exit-actions button{font-size:2.25cqw;padding:1.4cqw 2.6cqw}
+.question-confirm-row{display:flex;justify-content:space-between;align-items:center;gap:1cqw;flex:none;padding-top:.2cqw}
+.question-confirm-row .footer-note{text-align:left;line-height:1.1}
+.question-confirm-row button:disabled{opacity:.45;filter:grayscale(.45);cursor:not-allowed}
+.snake-play{min-width:0;width:19cqw;height:11cqw;padding:0;gap:0}
+.snake-play svg{width:17cqw;height:10cqw;max-height:48px}
+.feedback-link-extra a{display:inline-block;margin-top:.7cqw;color:#f5d38c;text-decoration:underline;font-weight:700}
+
 @media (max-aspect-ratio:3/4){#frame{width:min(100vw,75dvh)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
@@ -175,14 +189,27 @@ body{display:grid;place-items:center;touch-action:manipulation}
     <div class="result-panel" id="resultPanel"></div>
     <div class="action-row"><span class="footer-note">obrigado por lembrar dela.</span><button class="secondary" id="restartButton">jogar de novo</button></div>
   </section>
+  <button type="button" class="exit-quiz-button hidden" id="exitQuizButton" aria-label="sair do quiz">sair ×</button>
+  <div class="exit-dialog hidden" id="exitDialog" role="dialog" aria-modal="true" aria-labelledby="exitDialogTitle">
+    <div class="exit-card">
+      <div class="exit-dialog-title" id="exitDialogTitle">quer sair do quiz?</div>
+      <p>se sair agora, seu progresso será perdido.</p>
+      <div class="exit-actions">
+        <button type="button" class="secondary" id="stayInQuiz">continuar</button>
+        <button type="button" class="primary" id="confirmExitQuiz">sair do quiz</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 const QUESTIONS = [{"type":"choice","sourceNo":"1","title":"quem foi a melhor amiga da dona maria?","options":[{"label":"lili, amiga de costura","correct":false,"feedback":"lili veio nos últimos anos, sempre foi uma querida, mas vanilde foi a amiga de 4 décadas."},{"label":"vanilde, a vizinha do lado","correct":true,"feedback":"vanilde era a amiga que, segundo a própria dona maria, foi a irmã que ela escolheu. vai entender melhor isso na próxima pergunta."},{"label":"imaculada, a cunhada mais próxima","correct":false,"feedback":"nem fodendo. ela sempre deixou claro que só suportou porque a cunhada tratou bem os filhos. er… até certo ponto. romper com ela, segundo dona maria, foi… ouça você. a resposta certa e única é a vanilde."},{"label":"luiza, a irmã de marilac","correct":false,"feedback":"luiza não era nem a irmã mais querida (e olha que ela amava todos). a resposta certa e única é a vanilde."},{"label":"belinha, a vizinha da rua de trás","correct":false,"feedback":"uma queridíssima, mas talvez fosse, junto com a marta (a irmã dela), as seguintes da lista. o topo é da vanilde há 4 décadas."}]},{"type":"choice","sourceNo":"2","title":"juntas, dona maria e vanilde tinham uma amizade que permitia:","options":[{"label":"sentar no fim de tarde na calçada só pra fofocar e fumar um cigarrinho","correct":false},{"label":"ir na casa da outra sem levar cigarro e saber onde ela guardava o cigarro e pegar","correct":false},{"label":"corrigir o filho ou neto da outra como fosse seu","correct":false},{"label":"pedir comida pelo basculante que existias no muro das casas","correct":false},{"label":"todas as respostas anteriores","correct":true}],"feedback":"sim, elas faziam tudo isso e mais um pouco. e vendo as mensagens no celular da dona maria, ainda confirmei uma teoria que tinha e descobri que era dona maria que “vigiava” a filha da vizinha quando a mãe viajava. sabia mais sobre o itinerário da natália que a própria."},{"type":"match","sourceNo":"3","title":"como dona maria chamava as seguintes pessoas próximas? ligue os nomes aos apelidos.","note":"escolha o apelido que combina com cada pessoa.","pairs":[["vanilde, a amiga","di"],["wendell, o filho","meu preto"],["eloiso, o vizinho","cumpadi"],["henrique, o neto caçula","príncipe"],["imaculada, a cunhada","cobra"],["juninho, o caçula","meu branco"],["ângelo, o cunhado","menino do morro"]],"choices":["cobra","menino do morro","meu branco","príncipe","di","cumpadi","meu preto"],"photoKeys":["vanilde","wendell","eloiso","henrique","imaculada","juninho","angelo"]},{"type":"choice","sourceNo":"4","title":"mesmo sendo uma cozinheira incrível, dona maria odiava comer uma coisa que fazia até com frequência. o que era?","layout":"food","options":[{"label":"dobradinha","artKey":"dobradinha","correct":false,"feedback":"tá aí algo que ela nunca fez em toda nossa vida. mas acho que comia. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"peixe frito","artKey":"peixe-frito","correct":false,"feedback":"só comíamos peixe em situações atípicas, nunca foi prato lá em casa. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"frango","artKey":"frango","correct":true,"feedback":"mesmo sendo dona do melhor frango com quiabo do mundo, ela odiava frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"macarronada","artKey":"macarronada","correct":false,"feedback":"era algo que eu amo até hoje mas ela nunca foi de fazer. mas amava o que a tia mariquinha fazia. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."},{"label":"churrasco","artKey":"churrasco","correct":false,"feedback":"churrasco não era só o favorito como mera convenção. se deixasse, ela comia o boi vivo. o certo é frango. desde o plano real, quando o frango ficou barato, ela aprendeu 30 modos de fazer. mas não comia nenhum deles por prazer."}]},{"type":"choice","sourceNo":"5","title":"segundo ela, qual era o segredo do melhor feijão do mundo?","options":[{"label":"não tinha segredo","correct":true,"feedback":"isso é o que ela dizia quando não queria explicar. mas o mais próximo de segredo que consegui presenciar foram as duas cabeças de alho quase torradas, antes de refogar."},{"label":"era só dourar duas cabeças de alho antes de refogar","correct":true,"feedback":"gosto de acreditar que o segredo é esse pois já quase consegui repetir a receita. se não for, ela levou pra sempre e é foda imaginar que não terei mais esse sabor."},{"label":"cozinhar com uma beterraba","correct":true,"feedback":"sim, ela sempre cozinhava uma beterraba (e só não tirava quando juninho chegava antes pra comer feijão sem tempero) mas talvez fosse só parte do segredo. segundo ela, fazia isso pra ter um caldo grossinho."},{"label":"socar o tempero na hora","correct":true,"feedback":"pro feijão ela nunca usava tempero pronto, nem o dela. socava na hora. porém, o mais próximo de segredo que consegui presenciar foram as duas cabeças de alho quase torradas, antes de refogar."},{"label":"ela não contava o segredo","correct":true,"feedback":"também tá certa essa porque as conclusões que cheguei são mais dedutivas que informativas. como as grandes cozinheiras, ela teimava que não tinha segredo algum só pra não contar. quando parecia que ia contar, fazia de modo incompleto."}],"allCorrect":true},{"type":"match","sourceNo":"6","title":"relacione os 6 artistas com as opiniões dela sobre eles.","note":"escolha a frase que dona maria dizia sobre cada artista.","pairs":[["ronnie von","“foi o mais bonito do mundo”"],["roberto carlos","“é o que tem mais música que ouço”"],["erasmo carlos","“as coisas novas dele são mais bonitas que as do meu tempo”"],["oswaldo montenegro","“foi o show mais bonito que vi na vida”"],["jerry adriani","“eu queria ser namorada dele na adolescência”"],["julio iglesias","“tá feio, mas já foi mais bonito que o filho”"]],"choices":["“foi o show mais bonito que vi na vida”","“tá feio, mas já foi mais bonito que o filho”","“é o que tem mais música que ouço”","“eu queria ser namorada dele na adolescência”","“foi o mais bonito do mundo”","“as coisas novas dele são mais bonitas que as do meu tempo”"],"photoKeys":["ronnie-von","roberto-carlos","erasmo-carlos","oswaldo-montenegro","jerry-adriani","julio-iglesias"]},{"type":"choice","sourceNo":"7","title":"qual novela era a favorita da dona maria?","note":"pergunta extra · não vale ponto","score":false,"options":[{"label":"o direito de nascer","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"escrava isaura","correct":true,"feedback":"isso mesmo: escrava isaura."},{"label":"roque santeiro","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"vale tudo","correct":false,"feedback":"a novela favorita era escrava isaura."},{"label":"a viagem","correct":false,"feedback":"a novela favorita era escrava isaura."}]},{"type":"choice","sourceNo":"8","title":"qual era a canção nacional favorita da dona maria?","layout":"music","options":[{"label":"você deixou alguém a te esperar — roberto carlos","art":"vinyl","correct":true},{"label":"às vezes tu, às vezes eu — julio iglesias","art":"moon","correct":false},{"label":"morto de saudade sua — cézar e paulinho","art":"road","correct":false},{"label":"chalana — almir sater","art":"sun","correct":false},{"label":"lua e flor — oswaldo montenegro","art":"flower","correct":false},{"label":"mulher — erasmo carlos","art":"globe","correct":false},{"label":"olhos feiticeiros — jerry adriani","art":"piano","correct":false}],"feedback":"você deixou alguém a te esperar era a favorita dela. mas na lista está a favorita de cada um dos artistas citados. aliás, em junhos, no cover de \"as flores do jardim da nossa casa\" tem uma citação direta a ela, já reparou?"},{"type":"choice","sourceNo":"9","title":"das canções que juninho e eu ouvimos, qual era a favorita dela?","layout":"music","options":[{"label":"old habits die hard — mick jagger","art":"vinyl","correct":false},{"label":"come pick me up — ryan adams","art":"road","correct":false},{"label":"these days — bon jovi","art":"sun","correct":false},{"label":"the blower’s daughter — damien rice","art":"flower","correct":false},{"label":"the man who sold the world — nirvana","art":"globe","correct":true},{"label":"i don’t want to miss a thing — aerosmith","art":"moon","correct":false},{"label":"forever and one — helloween","art":"piano","correct":false}],"feedback":"the man who sold the world era, segundo minha mãe, a música mais bonita de tudo que ouvíamos (mesmo sem eu saber a letra, comentava). era a música que juninho tinha que fazer, pelo menos, os acordes iniciais, sempre que pegava violão ou guitarra. propositadamente, a parte narrada ao final de \"enquanto a saudade costura\" é da letra da música em questão."},{"type":"choice","sourceNo":"10","title":"dos filmes de terror, qual gênero era o favorito da dona maria?","layout":"horror","options":[{"label":"suspense","artKey":"suspense","correct":false},{"label":"gore","artKey":"gore","correct":false},{"label":"possessão","artKey":"possession","correct":true},{"label":"thriller psicológico","artKey":"psychological","correct":false},{"label":"ficção científica","artKey":"scifi","correct":false}],"feedback":"ela assistia qualquer tipo de terror. sempre pedia. mas queria ver o sorriso iluminar era o filme ser de possessão. amou maratonar histórias de possessão e qualquer outra em que o mal entrasse ou saísse de alguém."},{"type":"choice","sourceNo":"11","title":"de toda a família, excluindo os filhos, quem foi a pessoa favorita dela (olha a treta!)","layout":"family","options":[{"label":"a vovó lourdes","photo":"vovo-lourdes","correct":false},{"label":"o vovô duca","photo":"vovo-duca","correct":false},{"label":"a tia terezinha","photo":"tia-terezinha","correct":true},{"label":"a tia luiza","photo":"tia-luiza","correct":false},{"label":"o tio tonico","photo":"tio-tonico","correct":false}],"feedback":"ela era apaixonada por (quase) todo mundo da família. mas me disse a vida toda, sempre que podia, o quanto a tia terezinha foi a pessoa mais linda que ela conheceu. era sua favorita e nunca escondeu isso."},{"type":"choice","sourceNo":"12","title":"qual dos parentes pisou na bola feio com dona maria e o que fez?","layout":"long","options":[{"label":"o irmão, tonico, deixou ela responder um processo grave porque sumiu no mapa quando deveria responder pela tetraplegia de um funcionário da obra dele.","correct":false},{"label":"a cunhada, imaculada, foi visitá-la no coma mesmo sem conversar com ela há 4 anos, apenas pra saber se ela estava nas últimas e teria que cuidar do irmão.","correct":false},{"label":"o esposo, wanderley, ignorou a própria religião e que havia sido cuidado por ela quando precisou e só a visitou 2 vezes no coma porque foi cobrado por isso.","correct":false},{"label":"a neta, emanuelly, ao lado do esposo, extorquiu a avó alegando dar uma boa vida pro filho e roubou todo o dinheiro que conseguiu e mais um pouco.","correct":false},{"label":"todas as respostas anteriores.","correct":true}],"feedbackWrong":"essa e todas as outras são verdadeiras e um pequeno spoiler do que vem no próximo álbum, rodas-gigantes. aproveite e faça o pré-save. o exposed vem primeiro como canção, depois como conteúdo investigativo da minha versão full pistola. aguardem.","feedbackRight":"todas são verdadeiras e um pequeno spoiler do que vem no próximo álbum, rodas-gigantes. aproveite e faça o pré-save do disco, que sai dia 14. o exposed vem primeiro como canção, depois como conteúdo investigativo da minha versão full pistola. aguardem."}];
 const frame = document.getElementById('frame');
 const cover = document.getElementById('cover');
 const startButton = document.getElementById('startButton');
+const exitQuizButton = document.getElementById('exitQuizButton');
+const exitDialog = document.getElementById('exitDialog');
 const screens = ['rulesScreen','questionScreen','feedbackScreen','resultScreen'].map(id=>document.getElementById(id));
-let current = 0, score = 0, stage = 'cover';
+let current = 0, score = 0, stage = 'cover', pendingChoice = null;
 
 function showStage(next){
   stopAllInlineAudio();
@@ -195,6 +222,8 @@ function showStage(next){
   })[next] || null;
   cover.classList.toggle('hidden', next !== 'cover');
   startButton.classList.toggle('hidden', next !== 'cover');
+  exitQuizButton.classList.toggle('hidden', next === 'cover');
+  if(next === 'cover') exitDialog.classList.add('hidden');
   frame.classList.toggle('game-mode', next !== 'cover');
   frame.classList.toggle('cover-mode', next === 'cover');
   screens.forEach(s=>s.classList.toggle('active', s.id === activeScreenId));
@@ -260,10 +289,10 @@ function photoSlot(label='foto 1:1',key=''){
 }
 function feedbackMedia(sourceNo){
   if(sourceNo==='8'){
-    return `<div class="media-player" data-audio-player="flores"><div class="media-player-cover"><img src="${PHOTO_ASSETS['resposta-8']}" alt="capa de as flores do jardim da nossa casa" loading="lazy" decoding="async" referrerpolicy="no-referrer"><button type="button" class="media-play-overlay" data-audio-toggle="flores" aria-label="reproduzir ou pausar as flores do jardim da nossa casa">▶</button></div><div class="media-player-controls"><button type="button" class="media-player-stop" data-audio-stop="flores">parar</button><a class="media-player-link" href="${FLOWERS_AUDIO_URL}" target="_blank" rel="noopener">abrir áudio</a></div><audio data-audio="flores" preload="none"><source src="${FLOWERS_AUDIO_URL}" type="audio/mpeg"></audio><div class="media-player-status" data-audio-status="flores" aria-live="polite"></div></div>`;
+    return `<div class="media-player" data-audio-player="flores"><div class="media-player-cover"><img src="${PHOTO_ASSETS['resposta-8']}" alt="capa de as flores do jardim da nossa casa" loading="lazy" decoding="async" referrerpolicy="no-referrer"><button type="button" class="media-play-overlay" data-audio-toggle="flores" aria-label="reproduzir ou pausar as flores do jardim da nossa casa">▶</button></div><div class="media-player-controls"><button type="button" class="media-player-stop" data-audio-stop="flores">parar</button></div><audio data-audio="flores" preload="none"><source src="${FLOWERS_AUDIO_URL}" type="audio/mpeg"></audio><div class="media-player-status" data-audio-status="flores" aria-live="polite"></div></div>`;
   }
   if(sourceNo==='9'){
-    return `<div class="media-player" data-audio-player="costura"><div class="media-player-cover"><img src="${PHOTO_ASSETS['resposta-9']}" alt="capa de enquanto a saudade costura" loading="lazy" decoding="async" referrerpolicy="no-referrer"><button type="button" class="media-play-overlay" data-audio-toggle="costura" aria-label="reproduzir ou pausar enquanto a saudade costura">▶</button></div><div class="media-player-controls"><button type="button" class="media-player-stop" data-audio-stop="costura">parar</button><a class="media-player-link" href="${COSTURA_AUDIO_URL}" target="_blank" rel="noopener">abrir áudio</a></div><audio data-audio="costura" preload="none"><source src="${COSTURA_AUDIO_URL}" type="audio/mpeg"></audio><div class="media-player-status" data-audio-status="costura" aria-live="polite"></div></div>`;
+    return `<div class="media-player" data-audio-player="costura"><div class="media-player-cover"><img src="${PHOTO_ASSETS['resposta-9']}" alt="capa de enquanto a saudade costura" loading="lazy" decoding="async" referrerpolicy="no-referrer"><button type="button" class="media-play-overlay" data-audio-toggle="costura" aria-label="reproduzir ou pausar enquanto a saudade costura">▶</button></div><div class="media-player-controls"><button type="button" class="media-player-stop" data-audio-stop="costura">parar</button></div><audio data-audio="costura" preload="none"><source src="${COSTURA_AUDIO_URL}" type="audio/mpeg"></audio><div class="media-player-status" data-audio-status="costura" aria-live="polite"></div></div>`;
   }
   const slot=photoSlot('foto 1:1',`resposta-${sourceNo}`);
   return slot.replace('class="photo-slot has-photo"','class="photo-slot has-photo feedback-photo"').replace('class="photo-slot"','class="photo-slot feedback-photo"');
@@ -277,7 +306,7 @@ function stopAllInlineAudio(){
   const cobraAudio = document.getElementById('cobraAudio');
   const cobraPlay = document.getElementById('cobraPlay');
   if(cobraAudio){ try{ cobraAudio.pause(); cobraAudio.currentTime = 0; }catch(e){} }
-  if(cobraPlay){ cobraPlay.classList.remove('is-playing'); const span = cobraPlay.querySelector('span'); if(span) span.textContent='dar play'; }
+  if(cobraPlay){ cobraPlay.classList.remove('is-playing'); cobraPlay.setAttribute('aria-label','reproduzir áudio sobre a cobra'); }
 }
 
 function initInlineAudioPlayers(){
@@ -295,7 +324,7 @@ function initInlineAudioPlayers(){
           btn.textContent = '❚❚';
           if(status) status.textContent = '';
         }catch(error){
-          if(status) status.innerHTML = 'não foi possível reproduzir aqui. <a href="'+audio.currentSrc+'" target="_blank" rel="noopener">abrir áudio</a>';
+          if(status) status.textContent = 'não foi possível reproduzir aqui. tente novamente.';
         }
       }else{
         audio.pause();
@@ -318,7 +347,7 @@ function initInlineAudioPlayers(){
     const play = document.querySelector(`[data-audio-toggle="${id}"]`);
     const status = document.querySelector(`[data-audio-status="${id}"]`);
     audio.addEventListener('ended', ()=>{ if(play){ play.classList.remove('is-playing'); play.textContent='▶'; } });
-    audio.addEventListener('error', ()=>{ if(status) status.innerHTML = 'o áudio não carregou. <a href="'+audio.currentSrc+'" target="_blank" rel="noopener">abrir áudio</a>'; });
+    audio.addEventListener('error', ()=>{ if(status) status.textContent = 'o áudio não carregou. tente novamente.'; });
   });
 }
 
@@ -344,6 +373,7 @@ function setProgress(){
 }
 function renderQuestion(){
  const q = QUESTIONS[current];
+ pendingChoice = null;
  setProgress();
  document.getElementById('questionTitle').textContent = q.title;
  document.getElementById('questionNote').textContent = q.note || '';
@@ -399,6 +429,11 @@ function renderQuestion(){
    grid.appendChild(btn);
  });
  area.appendChild(grid);
+ const confirmRow=document.createElement('div');
+ confirmRow.className='question-confirm-row';
+ confirmRow.innerHTML='<span class="footer-note">você pode mudar sua escolha antes de confirmar</span><button type="button" class="primary" id="confirmChoice" disabled>confirmar</button>';
+ area.appendChild(confirmRow);
+ document.getElementById('confirmChoice').addEventListener('click',confirmChoice);
 }
 function refreshMatchDropdowns(selects,choices){
   const selected = selects.map(select=>select.value);
@@ -428,13 +463,34 @@ function showInlineMessage(message){
  el.textContent=message;
 }
 function chooseOption(index){
- const q=QUESTIONS[current], o=q.options[index];
+ pendingChoice=index;
+ const buttons=[...document.querySelectorAll('#questionArea .option-btn')];
+ buttons.forEach((button,i)=>{
+   const selected=i===index;
+   button.classList.toggle('selected',selected);
+   button.setAttribute('aria-pressed',selected?'true':'false');
+ });
+ const confirmButton=document.getElementById('confirmChoice');
+ if(confirmButton) confirmButton.disabled=false;
+ const message=document.getElementById('inlineMessage');
+ if(message) message.remove();
+}
+function confirmChoice(){
+ if(pendingChoice===null) return;
+ const q=QUESTIONS[current], o=q.options[pendingChoice];
  const correct=q.allCorrect ? true : !!o.correct;
  let feedback=o.feedback || q.feedback || (correct?'essa é a resposta certa.':'não era essa.');
  if(q.feedbackWrong && !correct) feedback=q.feedbackWrong;
  if(q.feedbackRight && correct) feedback=q.feedbackRight;
  showFeedback(correct,feedback,'');
 }
+function feedbackAddition(sourceNo){
+ if(sourceNo==='11'){
+   return `<div class="feedback-extra feedback-link-extra">e se brigarem por isso eu divulgo a lista dos irmãos e sobrinhos favoritos porque aí a briga fica boa<br><a href="https://soundcloud.com/dellsoares/errado-e-cafona-folk/s-Qp4f5ox0lPm?si=fabd378d90c0410b9510c70ac3c39204&amp;utm_source=clipboard&amp;utm_medium=text&amp;utm_campaign=social_sharing" target="_blank" rel="noopener">a canção bônus inédita aqui</a></div>`;
+ }
+ return '';
+}
+
 function showFeedback(correct,copy,extra){
  const q=QUESTIONS[current];
  if(correct && q.score !== false) score++;
@@ -454,12 +510,11 @@ function showFeedback(correct,copy,extra){
        <circle cx="99" cy="22" r="17" fill="#0a2637" stroke="#e2b35f" stroke-width="2.5"/>
        <path d="M95 13 L95 31 L109 22 Z" fill="#f4d58f"/>
      </svg>
-     <span>dar play</span>
    </button>
    <audio id="cobraAudio" preload="none"><source src="${COBRA_AUDIO_URL}" type="audio/ogg"></audio>
    <div class="cobra-audio-status" id="cobraAudioStatus" aria-live="polite"></div>
  </div>` : '';
- feedbackPanel.innerHTML=`<div class="feedback-title">${correct?(q.score===false?'boa! pergunta extra':'boa! +1 ponto'):'essa não era a resposta'}</div>${feedbackMedia(q.sourceNo || String(current+1))}<div class="feedback-copy">${escapeHtml(copy)}</div>${cobraAudio}${extra?`<div class="feedback-extra">${escapeHtml(extra)}</div>`:''}`;
+ feedbackPanel.innerHTML=`<div class="feedback-title">${correct?(q.score===false?'boa! pergunta extra':'boa! +1 ponto'):'essa não era a resposta'}</div>${feedbackMedia(q.sourceNo || String(current+1))}<div class="feedback-copy">${escapeHtml(copy)}</div>${cobraAudio}${extra?`<div class="feedback-extra">${escapeHtml(extra)}</div>`:''}${feedbackAddition(q.sourceNo || String(current+1))}`;
  initInlineAudioPlayers();
  if (q.sourceNo === '3') {
    const audio = document.getElementById('cobraAudio');
@@ -470,8 +525,8 @@ function showFeedback(correct,copy,extra){
        try {
          await audio.play();
          playButton.classList.add('is-playing');
-         playButton.querySelector('span').textContent = 'pausar';
-         status.textContent = '';
+         playButton.setAttribute('aria-label','pausar áudio sobre a cobra');
+         status.textContent = 'reproduzindo';
        } catch (error) {
          status.textContent = 'não foi possível reproduzir aqui. tente abrir o áudio diretamente.';
          if (!status.querySelector('a')) {
@@ -486,12 +541,13 @@ function showFeedback(correct,copy,extra){
      } else {
        audio.pause();
        playButton.classList.remove('is-playing');
-       playButton.querySelector('span').textContent = 'dar play';
+       playButton.setAttribute('aria-label','reproduzir áudio sobre a cobra');
+       status.textContent = 'pausado';
      }
    });
    audio.addEventListener('ended', () => {
      playButton.classList.remove('is-playing');
-     playButton.querySelector('span').textContent = 'dar play';
+     playButton.setAttribute('aria-label','reproduzir áudio sobre a cobra');
    });
    audio.addEventListener('error', () => {
      status.textContent = 'o áudio não carregou. tente abrir o arquivo diretamente.';
@@ -544,11 +600,32 @@ function renderResult(){
    });
  }
 }
-function restart(){ current=0; score=0; QUESTIONS.forEach(q=>{ if(q.type==='match') delete q._renderChoices; }); showStage('cover'); }
+function restart(){ current=0; score=0; pendingChoice=null; QUESTIONS.forEach(q=>{ if(q.type==='match') delete q._renderChoices; }); showStage('cover'); }
+function openExitDialog(){
+ if(stage==='cover') return;
+ exitDialog.classList.remove('hidden');
+ document.getElementById('stayInQuiz').focus();
+}
+function closeExitDialog(){ exitDialog.classList.add('hidden'); }
+function confirmExitQuiz(){
+ stopAllInlineAudio();
+ current=0; score=0; pendingChoice=null;
+ QUESTIONS.forEach(q=>{ if(q.type==='match') delete q._renderChoices; });
+ closeExitDialog();
+ showStage('cover');
+}
+exitQuizButton.addEventListener('click',openExitDialog);
+document.getElementById('stayInQuiz').addEventListener('click',closeExitDialog);
+document.getElementById('confirmExitQuiz').addEventListener('click',confirmExitQuiz);
+exitDialog.addEventListener('click',(event)=>{ if(event.target===exitDialog) closeExitDialog(); });
+document.addEventListener('keydown',(event)=>{
+ if(event.key==='Escape' && !exitDialog.classList.contains('hidden')) closeExitDialog();
+ else if(event.key==='Escape' && stage!=='cover') openExitDialog();
+});
 startButton.addEventListener('click',(event)=>{event.preventDefault();event.stopPropagation();if(stage==='cover') showStage('rules');});
 cover.addEventListener('click',()=>{if(stage==='cover') showStage('rules');});
 startButton.addEventListener('keydown',(event)=>{if((event.key==='Enter'||event.key===' ')&&stage==='cover'){event.preventDefault();showStage('rules');}});
-document.getElementById('beginQuiz').addEventListener('click',()=>{current=0;score=0;showStage('question');renderQuestion();});
+document.getElementById('beginQuiz').addEventListener('click',()=>{current=0;score=0;pendingChoice=null;showStage('question');renderQuestion();});
 document.getElementById('nextButton').addEventListener('click',nextQuestion);
 document.getElementById('restartButton').addEventListener('click',restart);
 showStage('cover');
